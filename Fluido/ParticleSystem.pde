@@ -58,7 +58,6 @@ class ParticleSystem
    void updateGrid()
    {
      _grid.restart();
-     _grid.renderGrid();
      
      for (int i = 0; i < _particles.size(); i++)
         _grid.particleAdd(_particles.get(i));
@@ -84,10 +83,10 @@ class ParticleSystem
          _particles.get(i).planeCollision(planes);
    }
 
-   void computeParticleCollisions(float timeStep)
+   void computeParticleCollisions()
    {
       for (int i = 0; i < _particles.size(); i++)
-         _particles.get(i).particleCollision(timeStep);
+         _particles.get(i).particleCollision();
    }
 
    void update(float timeStep)

@@ -12,8 +12,8 @@ final float POS_Y = DISPLAY_SIZE_Y * 0.01 * 0.5;
 // Parameters of the problem:
 
 final float TS = 0.005;     // Initial simulation time step (s)
-final float NT = 100.0;   // Rate at which the particles are generated (number of particles per second) (1/s)           
-final float L = 5.0;       // Particles' lifespan (s)
+final float NT = 100.0;     // Rate at which the particles are generated (number of particles per second) (1/s)           
+final float L = 5.0;        // Particles' lifespan (s)
 final float G = 9.801;
 final float Kd = 0.01;
 final float M = 1;

@@ -1,38 +1,22 @@
-// Problem description:
-// 
-//
-//
-// Differential equations:
-// 
-// 
-//      
-
-
 // Simulation and time control:
-
 float _timeStep;        // Simulation time-step (s)
 float _simTime = 0.0;   // Simulated time (s)
 
 // Output control:
-
 boolean _writeToFile = true;
 boolean _useTexture = false;
 PrintWriter _output;
 
 
 // Variables to be monitored:
-
 float _energy;                // Total energy of the system (J)
 int _numParticles;            // Total number of particles
 PVector _sInicial;
 PVector _vInicial;
 float _tiempoI;
-
 ParticleSystem _ps;
 
-
 // Main code:
-
 void settings()
 {
    size(DISPLAY_SIZE_X, DISPLAY_SIZE_Y);
@@ -79,13 +63,6 @@ void initSimulation()
    _sInicial = POS_INICIAL;
 }
 
-void restartSimulation()
-{
-   //
-   //
-   //
-}
-
 void endSimulation()
 {
    if (_writeToFile)
@@ -110,9 +87,6 @@ void draw()
 void drawStaticEnvironment()
 {
    background(BACKGROUND_COLOR[0], BACKGROUND_COLOR[1], BACKGROUND_COLOR[2]);
-   //
-   //
-   //
 }
 
 void drawMovingElements()

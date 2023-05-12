@@ -1,38 +1,19 @@
-// Problem description: //<>//
-// PRACTICA 1-  PROBLEMA 2
-// Sistemas de 2 particulas con carga (+ y -).
-//
-
-// Differential equations:
-//
-// dr/dt = (K *(q*Q)/r(t)^2)
-// ds/dt = v(t)
-//
-
-
-// Simulation and time control:
-
+// Simulation and time control: //<>//
 IntegratorType _integrator = IntegratorType.NONE;   // ODE integration method
 float _timeStep;        // Simulation time-step (s)
 float _simTime = 0.0;   // Simulated time (s)
 
-
 // Output control:
-
 boolean _writeToFile = false;
 PrintWriter _output;
 
-
 // Variables to be solved:
-
 PVector _s = new PVector();   // Position of the particle (m)
 PVector _v = new PVector();   // Velocity of the particle (m/s)
 PVector _a = new PVector();   // Accleration of the particle (m/(s*s))
 float _energy;                // Total energy of the particle (J)
 
-
 // Main code:
-
 void settings()
 {
    size(DISPLAY_SIZE_X, DISPLAY_SIZE_Y);
@@ -53,18 +34,11 @@ void stop()
 
 void mouseClicked()
 {
-   //Vector que contiene las coordenadas del click
    PVector mouse = new PVector(mouseX, mouseY);
    
-   //Posicion particula = posicion del raton
    _s.set(mouse.x, mouse.y);
-   
-   //Velocidad =0
    _v = V0.copy();
-   
-   //Aceleracion =0
    _a.set(0,0);
-   
 }
 
 void keyPressed()
@@ -179,16 +153,16 @@ void updateSimulation()
 
 void calculateEnergy()
 {
-   //1- Energia cinetica
+   // Kinetic energy
    float Ek = M * _v.magSq()*0.5;
-   //2- Energia potencial electroestática
-   //2.1- Calculo de la distancia entre particulas
+   
+   // Distance between particles
    PVector dir= PVector.sub(_s,C);
    float dis = dir.mag();
-   //2.2- Aplicamos la formula de la energia potencial electroestática
+   
+   // Electrostatic potential energy
    float Ee = (K*Q*q/dis);
    
-   //3- Suma de la energia total del sistema
    _energy = Ek + Ee;
 }
 
@@ -213,9 +187,6 @@ void displayInfo()
 
 void updateSimulationExplicitEuler()
 {
-   // s(t+h) = s(t) + h*v(t)
-   // v(t+h) = v(t) + h*a(s(t),v(t))
-
    _a = calculateAcceleration(_s, _v);
    
    _s.add(PVector.mult(_v, _timeStep));
@@ -224,9 +195,6 @@ void updateSimulationExplicitEuler()
 
 void updateSimulationSimplecticEuler()
 {
-   // v(t+h) = v(t) + h*a(s(t),v(t))
-   // s(t+h) = s(t) + h*v(t)
-   
    _a = calculateAcceleration(_s, _v);
    
    _v.add(PVector.mult(_a, _timeStep));
@@ -237,12 +205,14 @@ void updateSimulationRK2()
 {
     PVector s1, v1, s2, v2;
     
+    // A1
     _a = calculateAcceleration(_s, _v);
     
     // K1
     v1 = PVector.mult(_a, _timeStep);
     s1 = PVector.mult(_v, _timeStep);
     
+    // A2
     v2 = PVector.add(_v, PVector.mult(v1, .5));
     s2 = PVector.add(_s, PVector.mult(s1, .5));
     _a = calculateAcceleration(_s, _v);
@@ -251,7 +221,6 @@ void updateSimulationRK2()
     v2 = PVector.mult(_a, _timeStep);
     s2 = PVector.mult(PVector.add(_v, PVector.mult(v1, .5)), _timeStep);
     
-    // Update
     _s.add(s2);
     _v.add(v2);
 }
@@ -293,12 +262,9 @@ void updateSimulationRK4()
     v4 = PVector.mult(a3, _timeStep);
     s4 = PVector.mult(PVector.add(_v, v3), _timeStep);
     
-    // Update
     _v.add(PVector.add(PVector.add(v1, PVector.mult(v2, 2)), PVector.add(PVector.mult(v3, 2), v4)).div(6));
     _s.add(PVector.add(PVector.add(s1, PVector.mult(s2, 2)), PVector.add(PVector.mult(s3, 2), s4)).div(6));
 }
-
-
 
 void updateSimulationHeun()
 {
@@ -316,7 +282,6 @@ void updateSimulationHeun()
     
     a2 = calculateAcceleration(s2, v2);
   
-    // Update
     _s.add(PVector.mult(PVector.add(v1, v2), _timeStep * .5));
     _v.add(PVector.mult(PVector.add(a1, a2), _timeStep * .5));
 }
@@ -324,18 +289,12 @@ void updateSimulationHeun()
 PVector calculateAcceleration(PVector s, PVector v)
 {
    PVector a = new PVector();
-   //Vector para la Fuerza
    PVector F = new PVector();
-   //Vector direccion de la fuerza (entre las dos particulas)
-   PVector dir= PVector.sub(s,C);
-   //modulo de la direccion para saber la distancia
+   PVector dir = PVector.sub(s,C);
    float dis = dir.mag();
-   //normalizo la direccion para saber el vecto unitario de la fuerza
    dir.normalize();
-   //Calculo de la fuerza segun la ley de coulomb
    F = dir.mult((K *q*Q) /(dis*dis));
-   //Calculo de la aceleracion (Newton)
-   a= PVector.div(F,M);
+   a = PVector.div(F,M);
 
    return a;
 }

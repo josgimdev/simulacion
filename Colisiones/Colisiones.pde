@@ -1,20 +1,16 @@
 // Simulation and time control:
-
 float _timeStep;        // Simulation time-step (s)
 float _simTime;         // Simulated time (s)
 
 // Output control:
-
 boolean _computeParticleCollisions = true;
 boolean _computePlaneCollisions = true;
 
 // System variables:
-
 ParticleSystem _ps;
 ArrayList<PlaneSection> _planes;
 
 // Main code:
-
 void settings()
 {
    size(DISPLAY_SIZE_X, DISPLAY_SIZE_Y);
@@ -26,11 +22,6 @@ void setup()
    background(BACKGROUND_COLOR[0], BACKGROUND_COLOR[1], BACKGROUND_COLOR[2]);
 
    initSimulation();
-}
-
-void stop()
-{
-   endSimulation();
 }
 
 void keyPressed()
@@ -81,11 +72,6 @@ void initParticleSystem()
 void restartSimulation()
 {
    initSimulation();
-}
-
-void endSimulation()
-{
-
 }
 
 void draw()

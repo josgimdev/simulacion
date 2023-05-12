@@ -1,5 +1,4 @@
 // Definitions:
-
 enum IntegratorType 
 {
    NONE, 
@@ -10,9 +9,7 @@ enum IntegratorType
    HEUN 
 }
 
-
 // Display and output parameters:
-
 final int DRAW_FREQ = 100;                            // Draw frequency (Hz or Frame-per-second)
 final int DISPLAY_SIZE_X = 1000;                      // Display width (pixels)
 final int DISPLAY_SIZE_Y = 1000;                      // Display height (pixels)
@@ -22,7 +19,6 @@ final int [] STATIC_ELEMENTS_COLOR = {0, 255, 0};     // Color of non-moving ele
 final int [] MOVING_ELEMENTS_COLOR = {255, 0, 0};     // Color of moving elements (RGB)
 final float OBJECTS_SIZE = 20.0;                      // Size of the objects (m)
 final String FILE_NAME = "data.csv";                  // File to write the simulation variables 
-
 
 // Parameters of the problem:
 
@@ -41,11 +37,9 @@ final float L02 = 50.0;
 final float L03 = 50.0;
 final float L04 = 50.0;
 
-final float Kd = 0.0;         // Constante de fricción con el aire (kg/m).
-
+final float Kd = 0.001;         // Constante de fricción con el aire (kg/m).
 
 // Constants of the problem:
-
 final PVector C = new PVector(500.0, 500.0);              // Center of the spring system (m)
 final PVector S0 = PVector.add(C, new PVector(0.0, -D));  // Particle's start position (m)
 
@@ -54,5 +48,3 @@ final PVector C1 = new PVector(C.x - D, C.y - D);
 final PVector C2 = new PVector(C.x + D, C.y - D); 
 final PVector C3 = new PVector(C.x - D, C.y + D); 
 final PVector C4 = new PVector(C.x + D, C.y + D); 
-// 
-// 

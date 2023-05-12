@@ -75,7 +75,8 @@ public class Particle
 
    void planeCollision(ArrayList<PlaneSection> planes)
    {
-     for(int i = 0; i < planes.size(); i++) { 
+     for(int i = 0; i < planes.size(); i++) 
+     { 
        // Para cada plano
        PlaneSection p = planes.get(i);
        // Calculamos la distancia entre el plano y la particula
@@ -83,7 +84,8 @@ public class Particle
        // Comprobamos si la particula esta en el limite del plano
        boolean limit = p.checkLimits(_s);
        // Detectamos
-       if(dist < _radius * .5 && limit) {
+       if(dist < _radius * .5 && limit) 
+       {
          // Recolocamos
          PVector n = p.getNormal();
          float Drest = _radius * .5 - dist;
@@ -101,15 +103,18 @@ public class Particle
    {
       ArrayList<Particle> particles = _ps.getParticleArray();
       
-      for(int i = _id; i < particles.size(); i ++) {
+      for(int i = _id; i < particles.size(); i ++) 
+      {
         // Para cada particula
         Particle p = particles.get(i);
         p._color = PARTICLES_COLOR;
         // Si no es ella misma
-        if(_id != p._id) {
+        if(_id != p._id) 
+        {
           float dist = PVector.sub(_s, p._s).mag();
           // Detectamos
-          if(dist < _radius) { 
+          if(dist < _radius) 
+          { 
             PVector dir = PVector.sub(_s, p._s);
             float l = dir.mag() - _radius;
             dir.normalize();

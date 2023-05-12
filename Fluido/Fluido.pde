@@ -1,22 +1,12 @@
-// Problem description:
-//
-//
-//
-
 // Simulation and time control:
-
 float _timeStep;        // Simulation time-step (s)
 float _simTime = 0.0;   // Simulated time (s)
 
 // Output control:
-
-boolean _writeToFile = true;
-PrintWriter _output;
 boolean _computeParticleCollisions = true;
 boolean _computePlaneCollisions = true;
 
 // System variables:
-
 ParticleSystem _ps;
 ArrayList<PlaneSection> _planes;
 HashTable _hs;
@@ -31,7 +21,6 @@ float _Tsim = 0.0;    // Total simulation time (s) Tsim = Tint + Tdata + Tcol1 +
 float _Tdraw = 0.0;   // Rendering time (s)
 
 // Main code:
-
 void settings()
 {
    size(DISPLAY_SIZE_X, DISPLAY_SIZE_Y);
@@ -43,11 +32,6 @@ void setup()
    background(BACKGROUND_COLOR[0], BACKGROUND_COLOR[1], BACKGROUND_COLOR[2]);
 
    initSimulation();
-}
-
-void stop()
-{
-   endSimulation();
 }
 
 void keyPressed()
@@ -81,12 +65,6 @@ void mousePressed()
 
 void initSimulation()
 {
-   if (_writeToFile)
-   {
-      _output = createWriter(FILE_NAME);
-      writeToFile("t, n, Tsim");
-   }
-
    _simTime = 0.0;
    _timeStep = TS;
 
@@ -98,17 +76,17 @@ void initPlanes()
 {
    _planes = new ArrayList<PlaneSection>();
    
-   _planes.add(new PlaneSection(TUBERIA_X, TUBERIA_Y, TUBERIA_X*2.5, TUBERIA_Y, true)); // 1
-   _planes.add(new PlaneSection(TUBERIA_X, TUBERIA_Y, TUBERIA_X, TUBERIA_Y*6.5, false)); // 2
-   _planes.add(new PlaneSection(TUBERIA_X, TUBERIA_Y*6.5, TUBERIA_X*2.5, TUBERIA_Y*8, false)); // 3
-   _planes.add(new PlaneSection(TUBERIA_X*2.5, TUBERIA_Y*8, TUBERIA_X*6.5, TUBERIA_Y*8, false)); // 4
-   _planes.add(new PlaneSection(TUBERIA_X*6.5, TUBERIA_Y*8, TUBERIA_X*8, TUBERIA_Y*6.5, false)); // 5
-   _planes.add(new PlaneSection(TUBERIA_X*8, TUBERIA_Y*6.5, TUBERIA_X*8, TUBERIA_Y, false)); // 6
-   _planes.add(new PlaneSection(TUBERIA_X*6.5, TUBERIA_Y, TUBERIA_X*6.5, TUBERIA_Y*5.5, false)); // 7
-   _planes.add(new PlaneSection(TUBERIA_X*6.5, TUBERIA_Y*5.5, TUBERIA_X*5.5, TUBERIA_Y*6.5, false)); // 8
-   _planes.add(new PlaneSection(TUBERIA_X*5.5, TUBERIA_Y*6.5, TUBERIA_X*3.5, TUBERIA_Y*6.5, false)); // 9
-   _planes.add(new PlaneSection(TUBERIA_X*3.5, TUBERIA_Y*6.5, TUBERIA_X*2.5, TUBERIA_Y*5.5, false)); // 10
-   _planes.add(new PlaneSection(TUBERIA_X*2.5, TUBERIA_Y*5.5, TUBERIA_X*2.5, TUBERIA_Y, false)); // 11
+   _planes.add(new PlaneSection(TUBERIA_X, TUBERIA_Y, TUBERIA_X*2.5, TUBERIA_Y, true));                 // 1
+   _planes.add(new PlaneSection(TUBERIA_X, TUBERIA_Y, TUBERIA_X, TUBERIA_Y*6.5, false));                // 2
+   _planes.add(new PlaneSection(TUBERIA_X, TUBERIA_Y*6.5, TUBERIA_X*2.5, TUBERIA_Y*8, false));          // 3
+   _planes.add(new PlaneSection(TUBERIA_X*2.5, TUBERIA_Y*8, TUBERIA_X*6.5, TUBERIA_Y*8, false));        // 4
+   _planes.add(new PlaneSection(TUBERIA_X*6.5, TUBERIA_Y*8, TUBERIA_X*8, TUBERIA_Y*6.5, false));        // 5
+   _planes.add(new PlaneSection(TUBERIA_X*8, TUBERIA_Y*6.5, TUBERIA_X*8, TUBERIA_Y, false));            // 6
+   _planes.add(new PlaneSection(TUBERIA_X*6.5, TUBERIA_Y, TUBERIA_X*6.5, TUBERIA_Y*5.5, false));        // 7
+   _planes.add(new PlaneSection(TUBERIA_X*6.5, TUBERIA_Y*5.5, TUBERIA_X*5.5, TUBERIA_Y*6.5, false));    // 8
+   _planes.add(new PlaneSection(TUBERIA_X*5.5, TUBERIA_Y*6.5, TUBERIA_X*3.5, TUBERIA_Y*6.5, false));    // 9
+   _planes.add(new PlaneSection(TUBERIA_X*3.5, TUBERIA_Y*6.5, TUBERIA_X*2.5, TUBERIA_Y*5.5, false));    // 10
+   _planes.add(new PlaneSection(TUBERIA_X*2.5, TUBERIA_Y*5.5, TUBERIA_X*2.5, TUBERIA_Y, false));        // 11
 }
 
 void initParticleSystem()
@@ -119,15 +97,6 @@ void initParticleSystem()
 void restartSimulation()
 {
    initSimulation();
-}
-
-void endSimulation()
-{
-   if (_writeToFile)
-   {
-      _output.flush();
-      _output.close();
-   }
 }
 
 void draw()
@@ -142,9 +111,6 @@ void draw()
    _Tsim = millis() - time;
 
    displayInfo();
-
-   if (_writeToFile)
-      writeToFile(_simTime + ", " + _ps.getNumParticles() + "," + _Tsim);
 }
 
 void drawStaticEnvironment()
@@ -175,18 +141,13 @@ void updateSimulation()
 
    time = millis();
    if (_computeParticleCollisions)
-      _ps.computeParticleCollisions(_timeStep);
+      _ps.computeParticleCollisions();
    _Tcol2 = millis() - time;
 
    time = millis();
    _ps.update(_timeStep);
    _simTime += _timeStep;
    _Tint = millis() - time;
-}
-
-void writeToFile(String data)
-{
-   _output.println(data);
 }
 
 void displayInfo()

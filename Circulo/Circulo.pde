@@ -1,32 +1,42 @@
-PVector pos,pos2;
-float r1 = 80;
-float r2 = 40;
-float ult,a,t,f,w,dif;//cambiar
+// Variables to be solved:
+PVector p1;
+PVector p2;
+float r1;
+float r2;
+float ult;
+float a;
+float t;
+float f;
+float w;
+float dif;
 
-void setup(){
+void setup()
+{
   size(600,600);
-  pos = new PVector(width/2, height/2);
-  pos2 = new PVector(pos.x + r1*2, pos.y);
-  ult =millis();
-  a=1;
-  t=1;
-  f=1/t;
-  w= 2*PI*f;
+  p1 = new PVector(width/2, height/2);
+  p2 = new PVector(p1.x + r1*2, p1.y);
+  ult = millis();
+  a = 1;
+  t = 1;
+  f = 1/t;
+  w = 2*PI*f;
 }
-void draw(){
+
+void draw()
+{
   background(0);
   
   fill(255,0,0);
-  ellipse(pos.x, pos.y, r1, r1);
+  circle(p1.x, p1.y, r1);
   
   stroke(255,0,0);
   fill(255,0,255);
-  ellipse(pos2.x, pos2.y, r2, r2);
+  circle(p2.x, p2.y, r2);
   
-  pos2.x = r1*2 * cos(a) + pos.x;
-  pos2.y = r1*2 * sin(a) + pos.y;
+  p2.x = r1*2 * cos(a) + p1.x;
+  p2.y = r1*2 * sin(a) + p1.y;
   
   dif = (millis()-ult)/1000;
-  a += w* dif;
-  ult= millis();
+  a += w * dif;
+  ult = millis();
 }

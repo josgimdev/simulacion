@@ -205,24 +205,13 @@ void updateSimulation()
 
 void calculateEnergy()
 {
-   // 1- Energía cinética
-   // 1.1- Calculamos el modulo de la velocidad
-   //1.2- Aplicamos la formula de la energía cinética.
    float Ek = (M * _v.mag() * _v.mag()) * .5;
-   
-   // 2- Energía potencial gravitatoria
-   // Aplicamos la formula de la Energía potencial gravitatoria,
-   // calculamos h tomando como suelo la parte inferior de la ventana.
    float Eg = M * G * (height-_s.y);
-   
-   //3- Energía potencial elastica de los muelles
    float Ec = 0;
-   // Recorremos los muelles llamado a la funcion 
-   // que calcula la energía de cada muelle
-   for(Spring sp : _spp) {
+   
+   for(Spring sp : _spp)
      Ec +=(sp.getEnergy());
-   }
-   // Suma de todas las energías
+     
    _energy = Ek + Eg + Ec;
 }
 
@@ -247,9 +236,6 @@ void displayInfo()
 
 void updateSimulationExplicitEuler()
 { 
-   // s(t+h) = s(t) + h*v(t)
-   // v(t+h) = v(t) + h*a(s(t),v(t))
-
    _a = calculateAcceleration(_s, _v);
    _s.add(PVector.mult(_v, _timeStep));
    _v.add(PVector.mult(_a, _timeStep));
@@ -257,9 +243,6 @@ void updateSimulationExplicitEuler()
 
 void updateSimulationSimplecticEuler()
 {
-  // v(t+h) = v(t) + h*a(s(t),v(t))
-  // s(t+h) = s(t) + h*v(t)    (V ahora es v+1)
-  
   _a = calculateAcceleration(_s, _v);
   _v.add(PVector.mult(_a, _timeStep));
   _s.add(PVector.mult(_v, _timeStep));
@@ -268,24 +251,23 @@ void updateSimulationSimplecticEuler()
 void updateSimulationRK2()
 {
     PVector s1, v1, s2, v2;
-
+    
+    // A1
     _a = calculateAcceleration(_s, _v);
-
+    
     // K1
     v1 = PVector.mult(_a, _timeStep);
     s1 = PVector.mult(_v, _timeStep);
-
-    // .5
+    
+    // A2
     v2 = PVector.add(_v, PVector.mult(v1, .5));
     s2 = PVector.add(_s, PVector.mult(s1, .5));
-
     _a = calculateAcceleration(_s, _v);
-
+  
     // K2
     v2 = PVector.mult(_a, _timeStep);
     s2 = PVector.mult(PVector.add(_v, PVector.mult(v1, .5)), _timeStep);
-
-    // Update
+    
     _s.add(s2);
     _v.add(v2);
 }

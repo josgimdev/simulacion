@@ -42,18 +42,10 @@ public class Spring
 
    void update()
    {
-      /* Este método debe actualizar todas las variables de la clase 
-         que cambien según avanza la simulación, siguiendo las ecuaciones 
-         de un muelle sin amortiguamiento.
-       */     
-      
-      // Dirección del vector sin normalizar
       PVector dir = PVector.sub(_pos1, _pos2);
-      // Longitud del muelle
       float l = dir.mag() - _l0;
-      // Dirección normalizada
       dir.normalize();
-      // Fuerza aplicada por el muelle    
+ 
       _F = PVector.mult(dir, _Ke * l);
       
       updateEnergy();
@@ -61,11 +53,9 @@ public class Spring
 
    void updateEnergy()
    {
-     //Calculo de distancia
       PVector dir = PVector.sub(_pos1, _pos2);
       float l = dir.mag() - _l0;
-     //Calculo energia de un muelle
-      _energy = _Ke * pow(l,2)/2;
+      _energy = _Ke * l * l * .5;
    }
 
    PVector getForce()

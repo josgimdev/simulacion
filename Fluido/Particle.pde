@@ -75,24 +75,19 @@ public class Particle
 
    void planeCollision(ArrayList<PlaneSection> planes)
    {
-     for(int i = 0; i < planes.size(); i += 1) {
-       
-       // Plano actual
+     for(int i = 0; i < planes.size(); i += 1) 
+     {
        PlaneSection p = planes.get(i);
        
-       // Distancia entre el plano actual y la particula actual
        float dist = p.getDistance(_s);
-       
-       // Limites del plano
        boolean limit = p.checkLimits(_s);
        
-       if(dist < _radius * .5 && limit) {
+       if(dist < _radius * .5 && limit) 
+       {
          PVector n = p.getNormal();
-         // Recolocamos la particula
          PVector pos = PVector.mult(n, _radius * .5 - dist);
          _s.add(pos);
          
-         // Calculamos su velocidad despues de la colisión con el plano
          PVector Vn = PVector.mult(n, _v.dot(n));
          PVector Vt = PVector.sub(_v, n);
          PVector Vf = PVector.sub(Vt, PVector.mult(Vn, -Cr));
@@ -101,45 +96,21 @@ public class Particle
      }
    }
 
-   void particleCollision(float timeStep)
+   void particleCollision()
    {
       ArrayList<Particle> particles = _ps.getParticleArray();
       
-      if(_ps._collisionDataType == CollisionDataType.GRID) {
-        for(int i = 0; i < _vecinos.size(); i++) {
-          Particle p = _vecinos.get(i);
-          float dist = PVector.sub(_s, p._s).mag();
-          if(dist < _radius) { 
-            PVector dir = PVector.sub(_s, p._s);
-            float l = dir.mag() - _radius;
-            dir.normalize();
-            PVector F = PVector.mult(dir, -Ke * l);
-            _v.add(F);
-            p._v.sub(F);
-          }
-        }
-      }
-      else if(_ps._collisionDataType == CollisionDataType.HASH) {
-        for(int i = 0; i < _vecinos.size(); i++) {
-          Particle p = _vecinos.get(i);
-          float dist = PVector.sub(_s, p._s).mag();
-          if(dist < _radius) { 
-            PVector dir = PVector.sub(_s, p._s);
-            float l = dir.mag() - _radius;
-            dir.normalize();
-            PVector F = PVector.mult(dir, -Ke * l);
-            _v.add(F);
-            p._v.sub(F);
-          }
-        }
-      }
-      else {
-        for(int i = 0; i < particles.size(); i ++) {
+      if(_ps._collisionDataType == CollisionDataType.NONE) 
+      {
+        for(int i = 0; i < particles.size(); i ++) 
+        {
           Particle p = particles.get(i);
           p._color = PARTICLES_COLOR;
-          if(_id != p._id) {
+          if(_id != p._id) 
+          {
             float dist = PVector.sub(_s, p._s).mag();
-            if(dist < _radius) { 
+            if(dist < _radius) 
+            { 
               PVector dir = PVector.sub(_s, p._s);
               float l = dir.mag() - _radius;
               dir.normalize();
@@ -147,6 +118,23 @@ public class Particle
               _v.add(F);
               p._v.sub(F);
             }
+          }
+        }
+      }
+      else
+      {
+        for(int i = 0; i < _vecinos.size(); i++) 
+        {
+          Particle p = _vecinos.get(i);
+          float dist = PVector.sub(_s, p._s).mag();
+          if(dist < _radius) 
+          { 
+            PVector dir = PVector.sub(_s, p._s);
+            float l = dir.mag() - _radius;
+            dir.normalize();
+            PVector F = PVector.mult(dir, -Ke * l);
+            _v.add(F);
+            p._v.sub(F);
           }
         }
       }
@@ -161,46 +149,40 @@ public class Particle
       row = int(_s.x / SC_GRID);
       col = int(_s.y / SC_GRID);
       
-      if (row >= 0 && row < grid._nRows && col >= 0 && col < grid._nCols) {
-        // Vecinas en la misma celda
+      if (row >= 0 && row < grid._nRows && col >= 0 && col < grid._nCols) 
+      {
         cell = grid._cells[row][col]._vector;
-        for (int i = 0; i < cell.size(); i++) {
+        for (int i = 0; i < cell.size(); i++) 
+        {
           Particle p = cell.get(i);
-          if (_id != p._id) {
+          if (_id != p._id) 
             _vecinos.add(p);
-          }
         }
       
-        // Vecinas de arriba
-        if (row - 1 >= 0) {
+        if (row - 1 >= 0) 
+        {
           cell = grid._cells[row - 1][col]._vector;
-          for (int i = 0; i < cell.size(); i++) {
+          for (int i = 0; i < cell.size(); i++)
             _vecinos.add(cell.get(i));
-          }
         }
         
-        // Vecinas de abajo
         if (row + 1 < grid._nRows) {
           cell = grid._cells[row + 1][col]._vector;
-          for (int i = 0; i < cell.size(); i++) {
+          for (int i = 0; i < cell.size(); i++)
             _vecinos.add(cell.get(i));
-          }
         }
         
-        // Vecinas de izquierda
         if (col - 1 >= 0) {
           cell = grid._cells[row][col - 1]._vector;
-          for (int i = 0; i < cell.size(); i++) {
+          for (int i = 0; i < cell.size(); i++)
             _vecinos.add(cell.get(i));
-          }
         }
         
-        // Vecinas de derecha
-        if (col + 1 < grid._nCols) {
+        if (col + 1 < grid._nCols) 
+        {
           cell = grid._cells[row][col + 1]._vector;
-          for (int i = 0; i < cell.size(); i++) {
+          for (int i = 0; i < cell.size(); i++)
             _vecinos.add(cell.get(i));
-          }
         }
       }
    }
@@ -212,47 +194,39 @@ public class Particle
       int cellPosition;
       PVector particleLocation = new PVector();
       
-      // Particulas en la misma celda
       particleLocation = _s;
       cellPosition = hashTable.hash(particleLocation);
       cell = hashTable._table.get(cellPosition);
-      for(int i = 0; i < cell.size(); i++) {
+      for(int i = 0; i < cell.size(); i++) 
+      {
         Particle p = cell.get(i);
         if(_id != p._id)
           _vecinos.add(p);
       }
       
-      // Vecinas de arriba
       particleLocation = new PVector(_s.x, _s.y - SC_HASH);
       cellPosition = hashTable.hash(particleLocation);
       cell = hashTable._table.get(cellPosition);
-      for(int i = 0; i < cell.size(); i++) {
+      for(int i = 0; i < cell.size(); i++) 
         _vecinos.add(cell.get(i));
-      }
       
-      // Vecinas de abajo
       particleLocation = new PVector(_s.x, _s.y + SC_HASH);
       cellPosition = hashTable.hash(particleLocation);
       cell = hashTable._table.get(cellPosition);
-      for(int i = 0; i < cell.size(); i++) {
+      for(int i = 0; i < cell.size(); i++)
         _vecinos.add(cell.get(i));
-      }
       
-      // Vecinas de la derecha
       particleLocation = new PVector(_s.x + SC_HASH, _s.y);
       cellPosition = hashTable.hash(particleLocation);
       cell = hashTable._table.get(cellPosition);
-      for(int i = 0; i < cell.size(); i++) {
+      for(int i = 0; i < cell.size(); i++)
         _vecinos.add(cell.get(i));
-      }
       
-      // Vecinas de la izquierda
       particleLocation = new PVector(_s.x - SC_HASH, _s.y);
       cellPosition = hashTable.hash(particleLocation);
       cell = hashTable._table.get(cellPosition);
-      for(int i = 0; i < cell.size(); i++) {
+      for(int i = 0; i < cell.size(); i++)
         _vecinos.add(cell.get(i));
-      }
    }
 
    void render()

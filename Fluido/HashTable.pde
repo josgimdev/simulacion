@@ -21,7 +21,8 @@ class HashTable
       }
    }
    
-   int hash(PVector l) {
+   int hash(PVector l) 
+   {
      long xd = int(floor(l.x/_cellSize));
      long yd = int(floor(l.y/_cellSize));
      long zd = int(floor(l.z/_cellSize));
@@ -35,14 +36,16 @@ class HashTable
      return cell;
    }
    
-   void particleAdd(Particle p) {
+   void particleAdd(Particle p) 
+   {
      int cellPosition = hash(p._s);
      ArrayList<Particle> cell = _table.get(cellPosition);
      p._color = _colors[cellPosition];
      cell.add(p);
    }
    
-   void restart() {
+   void restart() 
+   {
      for (int i = 0; i < _table.size(); i++)
          _table.get(i).clear();
    }
