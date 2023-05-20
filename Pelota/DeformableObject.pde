@@ -14,14 +14,10 @@ public class DeformableObject
    Particle[][][] _nodes;                             // Particles defining the object
    ArrayList<DampedSpring> _springs;                  // Springs joining the particles
 
-   float _Ke;
-   float _Kd;
-   
-   int _pos;
-   
-   PVector _airForce = new PVector(1.0, .0, .0);
+   float _Ke = Ke;
+   float _Kd = Kd;
 
-   DeformableObject(int numNodesX, int numNodesY, int numNodesZ, float sepX, float sepY, float sepZ, SpringLayout springLayout, color c, int pos, float Ke, float Kd)
+   DeformableObject(int numNodesX, int numNodesY, int numNodesZ, float sepX, float sepY, float sepZ, SpringLayout springLayout, color c)
    {
      _numNodesX = numNodesX;
      _numNodesY = numNodesY;
@@ -31,12 +27,6 @@ public class DeformableObject
      _sepZ = sepZ;
      _springLayout = springLayout;
      _color = c;
-     _pos = pos;
-     
-     _Ke = Ke;
-     _Kd = Kd;
-     
-     _airForce.mult(AirForce);
      
      _nodes = new Particle[_numNodesX][_numNodesY][_numNodesZ];
      _springs = new ArrayList<DampedSpring>();
@@ -55,7 +45,22 @@ public class DeformableObject
          createStructSprings();
          createBendSprings();
          break;
+       case STRUCTURAL_AND_SHEAR_AND_BEND:
+         createStructSprings();
+         createShearSprings();
+         createBendSprings();
+         break;
      }
+   }
+
+   int getNumNodes()
+   {
+      return _numNodesX*_numNodesY*_numNodesZ;
+   }
+
+   int getNumSprings()
+   {
+      return _springs.size();
    }
 
    void update(float simStep)
@@ -66,8 +71,6 @@ public class DeformableObject
        {
          for (int k = 0; k < _numNodesZ; k++) 
          {
-           if(Viento)
-             updateAirForce(i, j, k);
            _nodes[i][j][k].update(simStep);
          }
         }
@@ -77,31 +80,19 @@ public class DeformableObject
         _springs.get(i).update(simStep);
    }
    
-   void createNodes() 
-   {
+   void createNodes() {
      PVector s, v;
      boolean noGravity, clamped;
      
-     for (int i = 0; i < _numNodesX; i++) 
-     {
-       for (int j = 0; j < _numNodesY; j++) 
-       {
-         for (int k = 0; k < _numNodesZ; k++) 
-         {
+     for (int i = 0; i < _numNodesX; i++) {
+       for (int j = 0; j < _numNodesY; j++) {
+         for (int k = 0; k < _numNodesZ; k++) {
            
-           s = new PVector(i * _sepX + S * _pos , j * _sepY, k * _sepZ + H - _sepZ * _numNodesZ);
+           s = new PVector(i * _sepX, j * _sepY, k * _sepZ);
            v = new PVector(0, 0, 0);
            
-           if(i == 0 && (k == 0 || k == _numNodesZ - 1)) 
-           {
-             clamped = true;
-             noGravity = true;
-           }
-           else 
-           {
-             clamped = false;
-             noGravity = false;
-           }
+           clamped = false;
+           noGravity = false;
            
            Particle p = new Particle(s, v, m, noGravity, clamped);
            _nodes[i][j][k] = p;
@@ -110,8 +101,7 @@ public class DeformableObject
      }
    }
    
-   void createStructSprings() 
-   {
+   void createStructSprings() {
      DampedSpring spring;
      
      for (int i = 0; i < _numNodesX; i++) 
@@ -132,7 +122,7 @@ public class DeformableObject
            }
            if (k < _numNodesZ - 1) 
            {
-             spring = new DampedSpring(_nodes[i][j][k], _nodes[i][j][k + 1], _Ke, _Kd, PVector.sub(_nodes[i][j][k + 1]._s, _nodes[i][j][k]._s).mag());
+             spring = new DampedSpring(_nodes[i][j][k], _nodes[i][j][k + 1], _Ke, _Ke, PVector.sub(_nodes[i][j][k + 1]._s, _nodes[i][j][k]._s).mag());
              _springs.add(spring);
            }
          }
@@ -155,22 +145,19 @@ public class DeformableObject
              spring = new DampedSpring(_nodes[i][j][k], _nodes[i + 1][j + 1][k], _Ke, _Kd, PVector.sub(_nodes[i + 1][j + 1][k]._s, _nodes[i][j][k]._s).mag());
              _springs.add(spring);
            }
-           
            if (i - 1 >= 0 && j < _numNodesY - 1) 
            {
              spring = new DampedSpring(_nodes[i][j][k], _nodes[i - 1][j + 1][k], _Ke, _Kd, PVector.sub(_nodes[i - 1][j + 1][k]._s, _nodes[i][j][k]._s).mag());
              _springs.add(spring);
            }
-           
            if (i < _numNodesX - 1 && k < _numNodesZ - 1) 
            {
-             spring = new DampedSpring(_nodes[i][j][k], _nodes[i + 1][j][k + 1], _Ke, _Kd, PVector.sub(_nodes[i + 1][j][k + 1]._s, _nodes[i][j][k]._s).mag());
+             spring = new DampedSpring(_nodes[i][j][k], _nodes[i + 1][j][k + 1], _Ke, _Ke, PVector.sub(_nodes[i + 1][j][k + 1]._s, _nodes[i][j][k]._s).mag());
              _springs.add(spring);
            }
-           
            if (i - 1 >= 0 && k < _numNodesZ - 1) 
            {
-             spring = new DampedSpring(_nodes[i][j][k], _nodes[i - 1][j][k + 1], _Ke, _Kd, PVector.sub(_nodes[i - 1][j][k + 1]._s, _nodes[i][j][k]._s).mag());
+             spring = new DampedSpring(_nodes[i][j][k], _nodes[i - 1][j][k + 1], _Ke, _Ke, PVector.sub(_nodes[i - 1][j][k + 1]._s, _nodes[i][j][k]._s).mag());
              _springs.add(spring);
            }
          }
@@ -192,90 +179,45 @@ public class DeformableObject
              spring = new DampedSpring(_nodes[i][j][k], _nodes[i + 2][j][k], _Ke, _Kd, PVector.sub(_nodes[i + 2][j][k]._s, _nodes[i][j][k]._s).mag());
              _springs.add(spring);
            }
-           
            if (j < _numNodesY - 2) 
            {
              spring = new DampedSpring(_nodes[i][j][k], _nodes[i][j + 2][k], _Ke, _Kd, PVector.sub(_nodes[i][j + 2][k]._s, _nodes[i][j][k]._s).mag());
              _springs.add(spring);
            }
-           
-           if (k < _numNodesZ - 2) 
+           if (k < _numNodesZ - 1) 
            {
-             spring = new DampedSpring(_nodes[i][j][k], _nodes[i][j][k + 2], _Ke, _Kd, PVector.sub(_nodes[i][j][k + 2]._s, _nodes[i][j][k]._s).mag());
+             spring = new DampedSpring(_nodes[i][j][k], _nodes[i][j][k + 1], _Ke, _Ke, PVector.sub(_nodes[i][j][k + 1]._s, _nodes[i][j][k]._s).mag());
              _springs.add(spring);
-           }           
+           }
          }
        }
      }
    }
    
-   PVector calculateNormal(int i, int j, int k)
+   // colision de particulas
+   void colision(Ball p) 
    {
-     PVector n = new PVector(0, 0, 0);
-     int vecinos = 0;
+     PVector dir, F;
+     float dist, l;
      
-     if (i - 1 >= 0 && k + 1 < N_Z)
-     {
-       vecinos++;
-       
-       PVector norte = PVector.sub(_nodes[i][j][k + 1]._s, _nodes[i][j][k]._s);
-       PVector oeste = PVector.sub(_nodes[i - 1][j][k]._s, _nodes[i][j][k]._s);
-       
-       n.add(norte.cross(oeste).normalize());
-     }
-     
-     if (i + 1 < N_X && k + 1 < N_Z)
-     {
-       vecinos++;
-       
-       PVector este = PVector.sub(_nodes[i + 1][j][k]._s, _nodes[i][j][k]._s);
-       PVector norte = PVector.sub(_nodes[i][j][k + 1]._s, _nodes[i][j][k]._s);
-       
-       n.add(este.cross(norte).normalize());
-     }
-     
-     if (i-1 >= 0 && k-1 >= 0)
-     {
-       vecinos++;
-       
-       PVector oeste = PVector.sub(_nodes[i][j][k - 1]._s, _nodes[i][j][k]._s);
-       PVector sur = PVector.sub(_nodes[i - 1][j][k]._s, _nodes[i][j][k]._s);
-       
-       n.add(oeste.cross(sur).normalize());
-     }
-     
-     if (i + 1 < N_X && k - 1 >= 0)
-     {
-       vecinos++;
-       
-       PVector sur = PVector.sub(_nodes[i][j][k - 1]._s, _nodes[i][j][k]._s);
-       PVector este = PVector.sub(_nodes[i + 1][j][k]._s, _nodes[i][j][k]._s);
-
-       n.add(sur.cross(este).normalize());
-     }
-     
-     n.div(vecinos);
-     
-     return n;  //<>//
+     for (int i = 0; i < _numNodesX; i++) 
+       for (int j = 0; j < _numNodesY; j++) 
+         for (int k = 0; k < _numNodesZ; k++) 
+         {
+           dist = PVector.sub(p._s, _nodes[i][j][k]._s).mag();
+           if(dist < p._r) 
+           { 
+              dir = PVector.sub(p._s, _nodes[i][j][k]._s);
+              l = dir.mag() + p._r;
+              dir.normalize();
+              
+              F = PVector.mult(dir, -Ke * l);
+              
+              _nodes[i][j][k].addExternalForce(F);
+              //p.addExternalForce(PVector.mult(F, -1.0));
+           }
+         }
    }
-   
-   void updateAirForce(int i, int j, int k) 
-   {
-      PVector viento = new PVector(
-        0.12 + random(0.0, AirForce) * 0.1,
-        0.012 + random(0.0, AirForce) * 0.01,
-        0
-      );
-    
-      PVector normal = calculateNormal(i, j, k);
-      float producto_escalar = viento.dot(normal);
-      PVector fuerza_viento = PVector.mult(viento.normalize(), producto_escalar);
-      
-      fuerza_viento.x = abs(fuerza_viento.x);
-    
-      _nodes[i][j][k].addExternalForce(fuerza_viento);
-    }
-
    
    void render()
    {
@@ -283,39 +225,7 @@ public class DeformableObject
          renderWithSegments();
       else
          renderWithQuads();
-         
-      dibujarCilindro(S * _pos, H + _numNodesY * _sepY, 4, 8);
    }
-   
-   void dibujarCilindro(float pos, float altura, float radio, int resolucion) {
-    float angulo = TWO_PI / resolucion;
-    float h = altura;
-    
-    beginShape();
-    for (int i = 0; i < resolucion; i++) {
-      float x = sin(i * angulo) * radio;
-      float y = cos(i * angulo) * radio;
-      vertex(x + pos, y, h);
-    }
-    endShape(CLOSE);
-    
-    beginShape();
-    for (int i = 0; i < resolucion; i++) {
-      float x = sin(i * angulo) * radio;
-      float y = cos(i * angulo) * radio;
-      vertex(x + pos, y, 0);
-    }
-    endShape(CLOSE);
-    
-    beginShape(QUAD_STRIP);
-    for (int i = 0; i <= resolucion; i++) {
-      float x = sin(i * angulo) * radio;
-      float y = cos(i * angulo) * radio;
-      vertex(x + pos, y, h);
-      vertex(x + pos, y, 0);
-    }
-    endShape();
-}
 
    void renderWithSegments()
    {
