@@ -185,7 +185,6 @@ void draw()
       updateSimulation();
 
    displayInfo();
-   drawInteractiveInfo();
 }
 
 void drawStaticEnvironment()
@@ -205,18 +204,19 @@ void updateSimulation()
    _simTime += _timeStep;
 }
 
-void drawInteractiveInfo()
-{
-  float offsetX = width * 0.525;
-  float offsetY = height * 0.05;
-  float textSize = 20;
-  
-  pushMatrix();
-   {
+void displayInfo()
+{  
+   float textSize = 20;
+   
+   pushMatrix();
+   {          
       camera();
       noStroke();
       textSize(textSize);
       fill(0xff000000);
+      
+      float offsetX = width * 0.525;
+      float offsetY = height * 0.025;
       
       int i = 0;
       
@@ -228,28 +228,30 @@ void drawInteractiveInfo()
       text ("l + 'up' or 'down': aumentar o disminuir la longitud", offsetX, offsetY + textSize * (++i));
       text ("v + 'up' or 'down': aumentar o disminuir la 'velocidad'", offsetX, offsetY + textSize * (++i));
       text ("a + 'up' or 'down': aumentar o disminuir la amplitud", offsetX, offsetY + textSize * (++i));
-      text ("d + 'eje(x, y, z)' + 'up' or 'down': modificar la dirección", offsetX, offsetY + textSize * (++i));
+      text ("'(x, y, z)' + 'up' or 'down': modificar la dirección", offsetX, offsetY + textSize * (++i));
+   }
+   popMatrix();
+   
+   pushMatrix();
+   {
+      camera();
+      fill(0);
+      textSize(textSize);
+      
+      float offsetX = width * 0.025;
+      float offsetY = height * 0.025;
+      
+      int i = 0;
+      
+      text("Frame rate = " + 1.0/_deltaTimeDraw + " fps", offsetX, offsetY + textSize * (++i));
+      text("Elapsed time = " + _elapsedTime + " s", offsetX, offsetY + textSize * (++i));
+      text("Simulated time = " + _simTime + " s ", offsetX, offsetY + textSize * (++i));
       i++;
       text ("s: Onda sinusoidal", offsetX, offsetY + textSize * (++i));
       text ("w: Onda radial", offsetX, offsetY + textSize * (++i));
       text ("g: Onda de Gerstner", offsetX, offsetY + textSize * (++i));
       text ("t: Textura o malla", offsetX, offsetY + textSize * (++i));
       text ("r: Reset", offsetX, offsetY + textSize * (++i));
-   }
-   popMatrix();
-}
-
-void displayInfo()
-{
-   pushMatrix();
-   {
-      camera();
-      fill(0);
-      textSize(20);
-
-      text("Frame rate = " + 1.0/_deltaTimeDraw + " fps", width*0.025, height*0.05);
-      text("Elapsed time = " + _elapsedTime + " s", width*0.025, height*0.075);
-      text("Simulated time = " + _simTime + " s ", width*0.025, height*0.1);
    }
    popMatrix();
 }
