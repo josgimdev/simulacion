@@ -5,7 +5,7 @@ final float TIME_ACCEL = 1.0;     // To simulate faster (or slower) than real-ti
 // Display and output parameters:
 boolean DRAW_MODE = true;                             // True for wireframe
 final int DRAW_FREQ = 100;                            // Draw frequency (Hz or Frame-per-second)
-final int DISPLAY_SIZE_X = 1200;                      // Display width (pixels)
+final int DISPLAY_SIZE_X = 1600;                      // Display width (pixels)
 final int DISPLAY_SIZE_Y = 900;                       // Display height (pixels)
 final float FOV = 60;                                 // Field of view (º)
 final float NEAR = 0.01;                              // Camera near distance (m)

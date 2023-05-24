@@ -33,7 +33,7 @@ public class Particle
 
    void update(float simStep)
    {
-      if (_clamped || _s.z < -8)
+      if (_clamped || _s.z < -6)
          return;
 
       if (!_noGravity)

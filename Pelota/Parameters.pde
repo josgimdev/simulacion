@@ -14,8 +14,8 @@ final float TIME_ACCEL = 1.0;     // To simulate faster (or slower) than real-ti
 // Display and output parameters:
 boolean DRAW_MODE = false;                            // True for wireframe
 final int DRAW_FREQ = 100;                            // Draw frequency (Hz or Frame-per-second)
-final int DISPLAY_SIZE_X = 1000;                      // Display width (pixels)
-final int DISPLAY_SIZE_Y = 1000;                      // Display height (pixels)
+final int DISPLAY_SIZE_X = 1600;                      // Display width (pixels)
+final int DISPLAY_SIZE_Y = 900;                      // Display height (pixels)
 final float FOV = 60;                                 // Field of view (º)
 final float NEAR = 0.01;                              // Camera near distance (m)
 final float FAR = 10000.0;                            // Camera far distance (m)
@@ -41,7 +41,7 @@ final float Kd = 6.0;      // Constante de amortiguamiento lineal de cada uno de
 
 final float Mb = 1;         // Masa de la bola (kg).
 final float Rb = .5;        // Radio de la bola (m).
-final float Hb = -1;         // Altura inicial de la bola (m).
+final float Hb = -.5;         // Altura inicial de la bola (m).
 final float Vb = 1;         // Velocidad inicial de la bola (m/s).
 
 final float m = 0.2;          // Masa de cada nodo de la estructura deformable (kg).

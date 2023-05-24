@@ -230,8 +230,6 @@ void displayInfo()
       text("Elapsed time = " + _elapsedTime + " s", width*0.025, height*0.075);
       text("Simulated time = " + _simTime + " s ", width*0.025, height*0.1);
       text("Spring layout = " + _springLayout, width*0.025, height*0.125);
-      text("Ball start velocity = " + _ballVel + " m/s", width*0.025, height*0.15);
-      text("Air force = " + _airForce + " N", width*0.025, height*0.175);
    }
    popMatrix();
 }

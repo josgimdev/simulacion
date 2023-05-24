@@ -31,8 +31,8 @@ void setup()
    perspective((FOV*PI)/180, aspect, NEAR, FAR);
    _camera = new PeasyCam(this, 0);
    _camera.rotateX(PI + HALF_PI);
-   _camera.setDistance(1000);
-   _camera.pan(400, 0);
+   _camera.setDistance(20);
+   _camera.pan(S, H * -0.5);
 
    initSimulation();
 }
@@ -42,13 +42,14 @@ void keyPressed()
    if (key == 'R' || key == 'r')
      initSimulation();
   
-   if (key == 'V' || key == 'v') {
+   if (key == 'V' || key == 'v')
       Viento = !Viento;
-   }
 
-   if (key == 'G' || key == 'g') {
+   if (key == 'G' || key == 'g')
       Gravedad = !Gravedad;
-   }
+      
+   if (key == 'D' || key == 'd')
+     DRAW_MODE = !DRAW_MODE;
 }
 
 void initSimulation()
@@ -98,36 +99,7 @@ void draw()
 
 void drawStaticEnvironment()
 {
-   float textSize = 20; 
-   int i;
-   float sep = 10;
-  
-   noStroke();
-   fill(0, 0, 0);
-   box(2000.0, 1.0, 1.0);
    
-   pushMatrix();
-   {
-      fill(0);
-      textSize(textSize);
-      rotateX(-HALF_PI);
-      
-      i = 0;
-      text("Malla de tipo STRUCTURED", _structFlag._pos * S, sep + textSize * (++i), 0);
-      text("Constante elástica: " + Ke_STRUCT, _structFlag._pos * S, sep + textSize * (++i), 0);
-      text("Damping: " + Kd_STRUCT , _structFlag._pos * S, sep + textSize * (++i), 0);
-      
-      i = 0;
-      text("Malla de tipo BEND", _bendFlag._pos * S, sep + textSize * (++i), 0);
-      text("Constante elástica: " + Ke_BEND, _bendFlag._pos * S, sep + i * textSize * (++i), 0);
-      text("Damping: " + Kd_BEND , _bendFlag._pos * S, sep + textSize * (++i), 0);
-      
-      i = 0;
-      text("Malla de tipo SHEAR", _shearFlag._pos * S, sep + textSize * (++i), 0);
-      text("Constante elástica: " + Ke_SHEAR, _shearFlag._pos * S, sep + i * textSize * (++i), 0);
-      text("Damping: " + Kd_SHEAR, _shearFlag._pos * S, sep + textSize * (++i), 0);
-   }
-   popMatrix();
 }
 
 void drawDynamicEnvironment()
@@ -169,6 +141,10 @@ void displayInfo()
       text("FUERZAS EXTERNAS:", width * 0.725, height * 0.05);
       text("Viento " + viento, width * 0.725, height * 0.075);
       text("Gravedad " + gravedad, width * 0.725, height * 0.1);
+      
+      text("Malla de tipo STRUCTURED(Marrón)", width * 0.025, height * 0.25);
+      text("Malla de tipo BEND(Amarillo)", width * 0.025, height * 0.275);
+      text("Malla de tipo SHEAR(Verde)", width * 0.025, height * 0.3);
    }
    popMatrix();
 }

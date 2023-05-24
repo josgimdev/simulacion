@@ -14,8 +14,8 @@ final float TIME_ACCEL = 1.0;     // To simulate faster (or slower) than real-ti
 // Display and output parameters:
 boolean DRAW_MODE = false;                            // True for wireframe
 final int DRAW_FREQ = 100;                            // Draw frequency (Hz or Frame-per-second)
-final int DISPLAY_SIZE_X = 1000;                      // Display width (pixels)
-final int DISPLAY_SIZE_Y = 1000;                      // Display height (pixels)
+final int DISPLAY_SIZE_X = 1600;                      // Display width (pixels)
+final int DISPLAY_SIZE_Y = 900;                      // Display height (pixels)
 final float FOV = 60;                                 // Field of view (º)
 final float NEAR = 0.01;                              // Camera near distance (m)
 final float FAR = 10000.0;                            // Camera far distance (m)
@@ -28,19 +28,19 @@ final int [] TEXT_COLOR = {0, 0, 0};                  // Text color (RGB)
 final float TS = 0.001;     // Initial simulation time step (s)
 final float G = 9.81;       // Acceleration due to gravity (m/(s·s))
 
-final int N_X = 35;         // Number of nodes of the object in the X direction
-final int N_Y = 35;         // Number of nodes of the object in the Y direction
+final int N_X = 30;         // Number of nodes of the object in the X direction
+final int N_Y = 30;         // Number of nodes of the object in the Y direction
 final int N_Z = 1;          // Number of nodes of the object in the Z direction
 
 final float D_X = .2;       // Separation of the object's nodes in the X direction (m)
 final float D_Y = .2;       // Separation of the object's nodes in the Y direction (m)
 final float D_Z = .0;       // Separation of the object's nodes in the Z direction (m)
 
-final float Ke = 400;       // Constante elástica de cada uno de los muelles de la malla en las direcciones X e Y (N/m).
-final float Kd = 3.0;       // Constante de amortiguamiento lineal de cada uno de los muelles de la malla en las direcciones X e Y (kg/s).
+final float Ke = 800;       // Constante elástica de cada uno de los muelles de la malla en las direcciones X e Y (N/m).
+final float Kd = 2.0;       // Constante de amortiguamiento lineal de cada uno de los muelles de la malla en las direcciones X e Y (kg/s).
 
 final float Mb = 1;         // Masa de la bola (kg).
-final float Rb = .5;        // Radio de la bola (m).
+final float Rb = .4;        // Radio de la bola (m).
 final float Hb = 2;         // Altura inicial de la bola (m).
 final float Vb = 1;         // Velocidad inicial de la bola (m/s).
 

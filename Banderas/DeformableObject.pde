@@ -284,7 +284,7 @@ public class DeformableObject
       else
          renderWithQuads();
          
-      dibujarCilindro(S * _pos, H + _numNodesY * _sepY, 4, 8);
+      dibujarCilindro(S * _pos, H + _numNodesY * _sepY, 0.1, 12);
    }
    
    void dibujarCilindro(float pos, float altura, float radio, int resolucion) {
