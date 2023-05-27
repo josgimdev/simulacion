@@ -1,7 +1,7 @@
 // Display and output parameters:
 final int DRAW_FREQ = 100;                             // Draw frequency (Hz or Frame-per-second)
-final int DISPLAY_SIZE_X = 1000;                       // Display width (pixels)
-final int DISPLAY_SIZE_Y = 1000;                       // Display height (pixels)
+final int DISPLAY_SIZE_X = 1600;                       // Display width (pixels)
+final int DISPLAY_SIZE_Y = 900;                       // Display height (pixels)
 final int [] BACKGROUND_COLOR = {220, 200, 210};       // Background color (RGB)
 final int [] TEXT_COLOR = {0, 0, 0};                   // Text color (RGB)
 
@@ -18,3 +18,5 @@ final float Ke = 2;       // Constante elástica de los muelles de colisión (N/
 final color PARTICLES_COLOR = color(120, 160, 220);  // Color de las particulas
 final float DISTANCIA_X = (DISPLAY_SIZE_X) * 0.01;   // Distancia de la pantalla en el eje x (m)
 final float DISTANCIA_Y = (DISPLAY_SIZE_Y) * 0.01;   // Distancia de la pantalla en el eje y (m)
+
+final int TAM_PLANO = 400;

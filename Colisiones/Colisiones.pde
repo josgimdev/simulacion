@@ -58,10 +58,10 @@ void initPlanes()
 {
    _planes = new ArrayList<PlaneSection>();
    
-   _planes.add(new PlaneSection(200, 500, 500, 200, true));
-   _planes.add(new PlaneSection(500, 200, 800, 500, true));
-   _planes.add(new PlaneSection(800, 500, 500, 800, true));
-   _planes.add(new PlaneSection(500, 800, 200, 500, true));
+   _planes.add(new PlaneSection(width * 0.5 + TAM_PLANO, height * 0.5, width * 0.5, height * 0.5 + TAM_PLANO, true));
+   _planes.add(new PlaneSection(width * 0.5, height * 0.5 - TAM_PLANO, width * 0.5 + TAM_PLANO, height * 0.5, true));
+   _planes.add(new PlaneSection(width * 0.5 - TAM_PLANO, height * 0.5, width * 0.5, height * 0.5 - TAM_PLANO, true));
+   _planes.add(new PlaneSection(width * 0.5, height * 0.5 + TAM_PLANO, width * 0.5 - TAM_PLANO, height * 0.5, true));
 }
 
 void initParticleSystem()
@@ -113,6 +113,6 @@ void displayInfo()
    stroke(TEXT_COLOR[0], TEXT_COLOR[1], TEXT_COLOR[2]);
    fill(TEXT_COLOR[0], TEXT_COLOR[1], TEXT_COLOR[2]);
    textSize(20);
-   text("Para que activar/desactivar las colisiones con el plano pulsa la tecla P", width*0.3, height*0.025);
-   text("Para que activar/desactivar las colisiones entre las particulas pulsa la tecla C", width*0.3, height*0.050);
+   text("Para que activar/desactivar las colisiones con el plano pulsa la tecla P", width*0.025, height*0.025);
+   text("Para que activar/desactivar las colisiones entre las particulas pulsa la tecla C", width*0.025, height*0.050);
 }

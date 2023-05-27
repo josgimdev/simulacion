@@ -76,17 +76,17 @@ void initPlanes()
 {
    _planes = new ArrayList<PlaneSection>();
    
-   _planes.add(new PlaneSection(TUBERIA_X, TUBERIA_Y, TUBERIA_X*2.5, TUBERIA_Y, true));                 // 1
-   _planes.add(new PlaneSection(TUBERIA_X, TUBERIA_Y, TUBERIA_X, TUBERIA_Y*6.5, false));                // 2
-   _planes.add(new PlaneSection(TUBERIA_X, TUBERIA_Y*6.5, TUBERIA_X*2.5, TUBERIA_Y*8, false));          // 3
-   _planes.add(new PlaneSection(TUBERIA_X*2.5, TUBERIA_Y*8, TUBERIA_X*6.5, TUBERIA_Y*8, false));        // 4
-   _planes.add(new PlaneSection(TUBERIA_X*6.5, TUBERIA_Y*8, TUBERIA_X*8, TUBERIA_Y*6.5, false));        // 5
-   _planes.add(new PlaneSection(TUBERIA_X*8, TUBERIA_Y*6.5, TUBERIA_X*8, TUBERIA_Y, false));            // 6
-   _planes.add(new PlaneSection(TUBERIA_X*6.5, TUBERIA_Y, TUBERIA_X*6.5, TUBERIA_Y*5.5, false));        // 7
-   _planes.add(new PlaneSection(TUBERIA_X*6.5, TUBERIA_Y*5.5, TUBERIA_X*5.5, TUBERIA_Y*6.5, false));    // 8
-   _planes.add(new PlaneSection(TUBERIA_X*5.5, TUBERIA_Y*6.5, TUBERIA_X*3.5, TUBERIA_Y*6.5, false));    // 9
-   _planes.add(new PlaneSection(TUBERIA_X*3.5, TUBERIA_Y*6.5, TUBERIA_X*2.5, TUBERIA_Y*5.5, false));    // 10
-   _planes.add(new PlaneSection(TUBERIA_X*2.5, TUBERIA_Y*5.5, TUBERIA_X*2.5, TUBERIA_Y, false));        // 11
+   _planes.add(new PlaneSection(width * 0.5 - 300, height * 0.5 - 250, width * 0.5 - 500, height * 0.5 - 250, false));
+   _planes.add(new PlaneSection(width * 0.5 - 500, height * 0.5 - 250, width * 0.5 - 500, height * 0.5 + 250, false));
+   _planes.add(new PlaneSection(width * 0.5 - 500, height * 0.5 + 250, width * 0.5 - 400, height * 0.5 + 350, false));
+   _planes.add(new PlaneSection(width * 0.5 - 400, height * 0.5 + 350, width * 0.5 + 400, height * 0.5 + 350, false));
+   _planes.add(new PlaneSection(width * 0.5 + 400, height * 0.5 + 350, width * 0.5 + 500, height * 0.5 + 250, false));
+   _planes.add(new PlaneSection(width * 0.5 + 500, height * 0.5 + 250, width * 0.5 + 500, height * 0.5 - 250, false));
+   _planes.add(new PlaneSection(width * 0.5 + 300, height * 0.5 - 250, width * 0.5 + 300, height * 0.5 + 50, false));
+   _planes.add(new PlaneSection(width * 0.5 + 300, height * 0.5 + 50, width * 0.5 + 200, height * 0.5 + 150, false));
+   _planes.add(new PlaneSection(width * 0.5 + 200, height * 0.5 + 150, width * 0.5 - 200, height * 0.5 + 150, false));
+   _planes.add(new PlaneSection(width * 0.5 - 200, height * 0.5 + 150, width * 0.5 - 300, height * 0.5 + 50, false));
+   _planes.add(new PlaneSection(width * 0.5 - 300, height * 0.5 + 50, width * 0.5 - 300, height * 0.5 - 250, false));
 }
 
 void initParticleSystem()
@@ -155,15 +155,15 @@ void displayInfo()
    stroke(TEXT_COLOR[0], TEXT_COLOR[1], TEXT_COLOR[2]);
    fill(TEXT_COLOR[0], TEXT_COLOR[1], TEXT_COLOR[2]);
    textSize(20);
-   text("Time integrating equations: " + _Tint + " ms", width*0.3, height*0.025);
-   text("Time updating collision data: " + _Tdata + " ms", width*0.3, height*0.050);
-   text("Time computing collisions (planes): " + _Tcol1 + " ms", width*0.3, height*0.075);
-   text("Time computing collisions (particles): " + _Tcol2 + " ms", width*0.3, height*0.100);
-   text("Total simulation time: " + _Tsim + " ms", width*0.3, height*0.125);
-   text("Time drawing: " + _Tdraw + " ms", width*0.3, height*0.150);
-   text("Total step time: " + (_Tsim + _Tdraw) + " ms", width*0.3, height*0.175);
-   text("Fps: " + frameRate + "fps", width*0.3, height*0.200);
-   text("Simulation time step = " + _timeStep + " s", width*0.3, height*0.225);
-   text("Simulated time = " + _simTime + " s", width*0.3, height*0.250);
-   text("Number of particles: " + _ps.getNumParticles(), width*0.3, height*0.275);
+   text("Time integrating equations: " + _Tint + " ms", width*0.4, height*0.025);
+   text("Time updating collision data: " + _Tdata + " ms", width*0.4, height*0.050);
+   text("Time computing collisions (planes): " + _Tcol1 + " ms", width*0.4, height*0.075);
+   text("Time computing collisions (particles): " + _Tcol2 + " ms", width*0.4, height*0.100);
+   text("Total simulation time: " + _Tsim + " ms", width*0.4, height*0.125);
+   text("Time drawing: " + _Tdraw + " ms", width*0.4, height*0.150);
+   text("Total step time: " + (_Tsim + _Tdraw) + " ms", width*0.4, height*0.175);
+   text("Fps: " + frameRate + "fps", width*0.4, height*0.200);
+   text("Simulation time step = " + _timeStep + " s", width*0.4, height*0.225);
+   text("Simulated time = " + _simTime + " s", width*0.4, height*0.250);
+   text("Number of particles: " + _ps.getNumParticles(), width*0.4, height*0.275);
 }
